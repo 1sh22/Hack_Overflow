@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>X-ray Analysis</title>
+  <style>
+    /* CSS styling */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #343a40;
+      color: #ffffff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    #content {
+      margin: 20px auto;
+      max-width: 800px;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    #upload-form {
+      margin-bottom: 20px;
+    }
+
+    #upload-input {
+      display: none;
+    }
+
+    #upload-label {
+      background-color: #343a40;
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #upload-label:hover {
+      background-color: #212529;
+    }
+
+    #result {
+      display: none;
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    #result p {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>X-ray Analysis</h1>
+  </header>
+  <div id="content">
+    <form id="upload-form">
+      <input type="file" id="upload-input" accept="image/*">
+      <label for="upload-input" id="upload-label">Choose X-ray Image</label>
+    </form>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // JavaScript logic
+    document.getElementById('upload-input').addEventListener('change', handleUpload);
+
+    function handleUpload(event) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        const imgData = e.target.result;
+        const imgElement = document.createElement('img');
+        imgElement.src = imgData;
+        imgElement.style.maxWidth = '100%';
+
+        document.getElementById('result').innerHTML = '';
+        document.getElementById('result').appendChild(imgElement);
+
+        predictImage(imgData);
+      };
+
+      reader.readAsDataURL(file);
+    }
+
+    function predictImage(imageData) {
+      // Random prediction
+      const predictions = ['COVID-19', 'Normal', 'Viral Pneumonia'];
+      const randomIndex = Math.floor(Math.random() * predictions.length);
+      const randomPrediction = predictions[randomIndex];
+
+      // Display prediction after a delay
+      setTimeout(function() {
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML += '<p><strong>Prediction:</strong> ' + randomPrediction + '</p>';
+        resultDiv.style.display = 'block';
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
